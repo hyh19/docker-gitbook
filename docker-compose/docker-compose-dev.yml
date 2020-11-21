@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  gitbook-dev:
+    build:
+      dockerfile: Dockerfile-dev
+      context: .
+      args:
+        # 环境变量 NPM_REGISTRY 的默认值 "https://registry.npmjs.org/"
+        registry: ${NPM_REGISTRY:-"https://registry.npmjs.org/"}
+    command: gitbook serve
+    volumes:
+      - .:/book
+      - node_modules:/book/node_modules
+    ports:
+      - "4000:4000"
+      - "35729:35729"
+
+volumes:
+  node_modules:
