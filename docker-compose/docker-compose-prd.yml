@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  gitbook-prd:
+    build:
+      dockerfile: Dockerfile-prd
+      context: .
+      args:
+        # 环境变量 NPM_REGISTRY 的默认值 "https://registry.npmjs.org/"
+        registry: ${NPM_REGISTRY:-"https://registry.npmjs.org/"}
+    ports:
+      - "8080:80"

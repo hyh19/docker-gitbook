@@ -1,0 +1,18 @@
+# syntax=docker/dockerfile:experimental
+FROM mrhuangyuhui/gitbook as builder
+
+ARG registry
+
+WORKDIR /book
+
+COPY . /book
+
+RUN --mount=type=cache,target=/book/node_modules \
+    --mount=type=cache,target=/root/.npm \
+    npm config set registry $registry -g \
+    && gitbook install \
+    && gitbook build
+
+FROM nginx:1.16.1-alpine
+
+COPY --from=builder /book/_book /usr/share/nginx/html
